@@ -8,16 +8,16 @@ provider:
   runtime: nodejs20.x
   region: sa-east-1
 
-  package:
-    individually: true
+package:
+  individually: true
 
-  build:
-    esbuild:
-      bundle: true
-      minify: true
-      sourcemap: false
-      exclude:
-        - '@aws-sdk/*'
+build:
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: false
+    exclude:
+      - '@aws-sdk/*'
 
 functions:
   hello:
