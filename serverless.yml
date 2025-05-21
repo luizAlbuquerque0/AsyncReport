@@ -7,16 +7,26 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: sa-east-1
+  memorySize: 128
   environment:
-   DYNAMO_LEADS_TABLE: !Ref LeadsTable
+    DYNAMO_LEADS_TABLE: !Ref LeadsTable
+    GENERATE_REPORT_QUEUE_URL: !Ref GenerateReportQueue
+
   iam:
     role:
       statements:
+        #Dynamo
         - Effect: Allow
           Action:
             - dynamodb:PutItem
             - dynamodb:Scan
           Resource: !GetAtt LeadsTable.Arn
+        #SQS
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource: !GetAtt GenerateReportQueue.Arn
+
 
 
 package:
@@ -37,6 +47,13 @@ functions:
     events:
       - httpApi:
           path: /populate-dynamo
+          method: post
+
+  generateReport:
+    handler: src/functions/generateReport.handler
+    events:
+      - httpApi:
+          path: /generate-report
           method: post
 
 

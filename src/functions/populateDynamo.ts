@@ -3,7 +3,7 @@ import { response } from "../utils/response";
 import {randomUUID} from 'node:crypto'
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { env } from "../config/env";
-import { dynamoClient } from "./clients/dynamoClient";
+import { dynamoClient } from "../clients/dynamoClient";
 
 export async function handler(){
   const total = 5000;
